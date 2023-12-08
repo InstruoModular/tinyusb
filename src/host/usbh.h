@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2019 Ha Thach (tinyusb.org)
@@ -102,6 +102,9 @@ bool tuh_configure(uint8_t controller_id, uint32_t cfg_id, const void* cfg_param
 
 // Init host stack
 bool tuh_init(uint8_t controller_id);
+
+// De-initialise host stack
+void tuh_deinit(void);
 
 // Check if host stack is already initialized
 bool tuh_inited(void);

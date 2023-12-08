@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2019 Ha Thach (tinyusb.org)
@@ -392,6 +392,15 @@ bool tuh_init(uint8_t controller_id)
   hcd_int_enable(controller_id);
 
   return true;
+}
+
+void tuh_deinit(void)
+{
+  if (tuh_inited())
+  {
+    _usbh_controller = CONTROLLER_INVALID;
+    critical_section_deinit(&_usbh_qdef.critsec);
+  }
 }
 
 /* USB Host Driver task

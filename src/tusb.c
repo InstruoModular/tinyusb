@@ -51,6 +51,14 @@ bool tusb_init(void)
   return true;
 }
 
+void tusb_deinit(void)
+{
+#if CFG_TUH_ENABLED
+  // deinit host stack
+  tuh_deinit();
+#endif
+}
+
 bool tusb_inited(void)
 {
   bool ret = false;
@@ -196,8 +204,12 @@ uint16_t tu_desc_get_interface_total_len(tusb_desc_interface_t const* desc_itf, 
         break;
       }
 
-      len += tu_desc_len(p_desc);
+      const uint8_t len_add = tu_desc_len(p_desc);
+      len += len_add;
       p_desc = tu_desc_next(p_desc);
+
+      if (itf_count == 0 && len_add == 0)
+        return len;
     }
   }
 

@@ -192,7 +192,7 @@ static void __tusb_irq_path_func(hcd_rp2040_irq)(void)
     if (status & USB_INTS_HOST_CONN_DIS_BITS)
     {
         handled |= USB_INTS_HOST_CONN_DIS_BITS;
-        
+
         if (dev_speed())
         {
             hcd_event_device_attach(RHPORT_NATIVE, true);
@@ -467,6 +467,7 @@ void hcd_device_close(uint8_t rhport, uint8_t dev_addr)
 
       // unconfigure the endpoint
       ep->configured = false;
+      ep->active = false;
       *ep->endpoint_control = 0;
       *ep->buffer_control = 0;
       hw_endpoint_reset_transfer(ep);
@@ -524,7 +525,7 @@ bool hcd_edpt_xfer(uint8_t rhport, uint8_t dev_addr, uint8_t ep_addr, uint8_t * 
     (void) rhport;
 
     pico_trace("hcd_edpt_xfer dev_addr %d, ep_addr 0x%x, len %d\n", dev_addr, ep_addr, buflen);
-    
+
     uint8_t const ep_num = tu_edpt_number(ep_addr);
     tusb_dir_t const ep_dir = tu_edpt_dir(ep_addr);
 

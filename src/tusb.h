@@ -129,6 +129,9 @@
 // Otherwise it could cause kernel issue since USB IRQ handler does use RTOS queue API.
 bool tusb_init(void);
 
+// De-initialise device/host stack
+void tusb_deinit(void);
+
 // Check if stack is initialized
 bool tusb_inited(void);
 
